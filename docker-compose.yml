@@ -18,4 +18,13 @@ services:
     - doser
     environment:
     - SERVER_IP=${DOSER_IP}
-    - DISPLAY="${IP}:0"
+    - DISPLAY=${IP}:0
+
+  qt:
+    build:
+      context: ./dockers/qt
+      dockerfile: Dockerfile
+    container_name: qt
+    environment:
+    - SERVER_IP=${DOSER_IP}
+    - DISPLAY=${IP}:0
