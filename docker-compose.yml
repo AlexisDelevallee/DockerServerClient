@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  doser:
+    build: 
+      context: ./dockers/server
+      dockerfile: Dockerfile
+    container_name: doser
+    ports:
+      - "666:666"
+
+  docli:
+    build:
+      context: ./dockers/client
+      dockerfile: Dockerfile
+    container_name: docli
+    depends_on:
+    - doser
+    environment:
+    - SERVER_IP=${DOSER_IP}
