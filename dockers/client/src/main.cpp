@@ -7,8 +7,17 @@
 #include <chrono>
 #include <thread>
 #include <cstdlib>
+#include <QApplication>
+#include <QMainWindow>
+#include <QLabel>
 
-int main() {
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    // Create a main window
+    QMainWindow mainWindow;
+    mainWindow.setWindowTitle("Client GUI");
+
     int clientSocket;
     struct sockaddr_in serverAddr;
     const char* serverIP = getenv("SERVER_IP");
@@ -38,22 +47,20 @@ int main() {
     // Connect to server
     if (connect(clientSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0) {
         std::cerr << "Connection failed" << std::endl;
-        
-        while(1){
-            auto now = std::chrono::system_clock::now();
-    
-            // Sleep until 1 second from now
-            auto wakeup_time = now + std::chrono::seconds(10);
-            std::this_thread::sleep_until(wakeup_time);
-        }
     }
 
     std::cerr << "Connected to server on port 666" << std::endl;
 
-    // Do something with the server connection
+    // Create a label widget
+    QLabel *label = new QLabel("Connected");
+    mainWindow.setCentralWidget(label);
 
     // Close socket
     close(clientSocket);
 
-    return 0;
+    // Display the main window
+    mainWindow.show();
+
+    // Run the application event loop
+    return app.exec();
 }

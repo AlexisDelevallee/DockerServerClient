@@ -18,3 +18,4 @@ services:
     - doser
     environment:
     - SERVER_IP=${DOSER_IP}
+    - DISPLAY="${IP}:0"
